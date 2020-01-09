@@ -1,0 +1,36 @@
+{
+  "name": "universal-loggly",
+  "version": "0.1.0",
+  "description": "loggly tool",
+  "main": "dist/node-universal-loggly.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OnrampLab/node-universal-loggly.git"
+  },
+  "dependencies": {
+    "cross-fetch": "^3.0.4"
+  },
+  "devDependencies": {
+    "rollup": "^1.28.0",
+    "rollup-plugin-buble": "^0.19.8",
+    "rollup-plugin-serve": "^1.0.1",
+    "rollup-plugin-typescript": "^1.0.1",
+    "rollup-plugin-uglify": "^6.0.4",
+    "ts-loader": "^6.2.1",
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.4"
+  },
+  "scripts": {
+    "dev": "rollup -w -c ./tools/rollup/config.dev.js",
+    "prod": "rollup -c ./tools/rollup/config.prod.js"
+  },
+  "bugs": {
+    "url": "https://github.com/OnrampLab/node-universal-loggly/issues"
+  },
+  "homepage": "https://github.com/OnrampLab/node-universal-loggly#readme",
+  "keywords": [
+    "loggly"
+  ],
+  "author": "onramplab"
+}
