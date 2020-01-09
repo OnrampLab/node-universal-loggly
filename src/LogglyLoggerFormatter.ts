@@ -2,7 +2,7 @@ import { LogglyApi } from './LogglyApi';
 import { EnvInspect } from './lib/env-inspect';
 
 // 組織送出結構
-export class LogglyLoggerFormat {
+export class LogglyLoggerFormatter {
   logglyApi;
 
   constructor(token, tags) {

@@ -1,4 +1,4 @@
-import { LogglyLoggerFormat } from './LogglyLoggerFormat';
+import { LogglyLoggerFormatter } from './LogglyLoggerFormatter';
 
 /**
  *  feature
@@ -11,10 +11,10 @@ import { LogglyLoggerFormat } from './LogglyLoggerFormat';
  *    - 被 browser 的廣告 plugin 阻止
  */
 export class LogglyClient {
-  logglyLoggerFormat;
+  formatter;
 
   constructor(token, tags) {
-    this.logglyLoggerFormat = new LogglyLoggerFormat(token, tags);
+    this.formatter = new LogglyLoggerFormatter(token, tags);
   }
 
   // ============================================================
@@ -53,6 +53,6 @@ export class LogglyClient {
    * @returns {Promise.<TResult>}
    */
   _log(levelName, message, context) {
-    return this.logglyLoggerFormat.send(levelName, message, context);
+    return this.formatter.send(levelName, message, context);
   }
 }
