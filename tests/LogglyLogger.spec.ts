@@ -1,36 +1,35 @@
-import { LogglyClient } from '../src';
+import { LogglyClient } from '../src'
+import nock from 'nock'
+
+const base = 'https://logs-01.loggly.com'
+function createNockMock(fn: typeof jest['fn'], token: string, tags?: string) {
+  nock(`${base}`)
+    .post(`/inputs/${token}/tag/${tags}/`)
+    .reply((uri, reqBody) => {
+      fn()
+      console.log(reqBody)
+      return [201, {message: 'success'}]
+    })
+}
 
 describe('LogglyLogger', () => {
-  const token = 'test';
-  let logger;
+  const token = 'test'
 
-  beforeEach(() => {
-    logger = new LogglyClient(token);
-  });
+  it('LogglyLogger normal flow', async () => {
+    const tags = 'test-only'
+    let logger = new LogglyClient(base, token, tags)
 
-  // describe('debug()', () => {
-  // });
+    const message = 'test'
 
-  it('LogglyLogger normal flow', () => {
-    const tags = 'test-only';
-    logger = new LogglyClient(token, tags);
-    logger.setChannel('local');
+    const fn = jest.fn()
 
-    const message = 'test';
-    const promise = logger.info(message, {
+    createNockMock(fn, token, tags)
+
+    await logger.info(message, {
       redirect_result: true,
       redirect_url: 'https://127.0.0.1',
-    });
+    })
 
-    promise
-      .then(function(data) {
-        // todo
-      })
-      .catch(function(error) {
-        // console.error(`[universal-loggly]: to log error`);
-      })
-      .finally(function() {
-        // window.location.href = redirectUrl;
-      });
-  });
-});
+    expect(fn).toBeCalled()
+  })
+})
