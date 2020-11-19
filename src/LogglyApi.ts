@@ -9,7 +9,7 @@ export class LogglyApi {
   }
 
   get baseUrl() {
-    return `//${this.host}/inputs/${this.token}/tag/${this.tags}/`
+    return `${this.host}/inputs/${this.token}/tag/${this.tags}/`
   }
 
   async send<T>(jsonData = {} as T) {
