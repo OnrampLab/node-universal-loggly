@@ -13,7 +13,9 @@
   import { LogglyClient } from 'universal-loggly';
 
   // you can custom myself helper
-  import { factoryLogglyClient } from 'universal-loggly-helper';
+  export function factoryLogglyClient() {
+    return new LogglyClient(`<loggly host>`, 'token', 'secret')
+  }
 ```
 
 ## sample code
@@ -39,6 +41,5 @@ promise.then(function(data) {
 ```
 
 ## plan of future
-- ES8 async/await
 - storage cookie
 - send hook

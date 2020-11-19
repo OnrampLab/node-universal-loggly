@@ -16,6 +16,6 @@ function getToken_2() {
 export function factoryLogglyClient() {
   const token = getToken();
 
-  const logger = new LogglyClient(token, tags);
+  const logger = new LogglyClient('https://logs-01.loggly.com', token, tags);
   return logger;
 }
