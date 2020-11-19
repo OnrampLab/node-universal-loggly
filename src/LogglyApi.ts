@@ -1,64 +1,34 @@
-import fetch from 'cross-fetch';
+import fetch from 'cross-fetch'
 
-// 組織底層
+/**
+ * @desc 組織底層
+ */
 export class LogglyApi {
-  token;
-  tags;
-
-  constructor(token, tags) {
-    this.token = token;
-    this.tags = tags;
+  constructor(public host: string, public token: string, public tags?: string) {
+    this.send.bind(this)
   }
 
-  /**
-   *
-   * @param jsonData
-   * @returns {Promise.<TResult>}
-   */
-  async send(jsonData = {}) {
-    return this._fetch(jsonData);
+  get baseUrl() {
+    return `//${this.host}/inputs/${this.token}/tag/${this.tags}/`
   }
 
-  // ============================================================
-  //  private
-  // ============================================================
-
-  /**
-   *
-   * @param jsonData
-   * @returns {Promise.<TResult>}
-   * @private
-   */
-  async _fetch(jsonData) {
-    // console.log(this._buildUrl());
-    // console.log(jsonData);
-
-    //
-    const promise = fetch(this._buildUrl(), {
+  async send<T>(jsonData = {} as T) {
+    return fetch(this.baseUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(jsonData),
     })
-      .then(async function(response) {
+      .then(function (response) {
         if (response.status >= 200 && response.status < 300) {
-          return response.json();
+          return response.json()
         } else {
-          const error = new Error(response.statusText);
-          error.response = response;
-          throw error;
+          return Promise.reject(response)
         }
       })
-      .then(function(jsonData) {
-        return jsonData;
-      });
-
-    return promise;
-  }
-
-  _buildUrl() {
-    const endpoint = '//logs-01.loggly.com/inputs/';
-    return endpoint + this.token + '/tag/' + this.tags + '/';
+      .then(function (jsonData) {
+        return jsonData
+      })
   }
 }
