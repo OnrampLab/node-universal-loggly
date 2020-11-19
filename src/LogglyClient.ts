@@ -1,4 +1,6 @@
-import { LogglyLoggerFormatter } from './LogglyLoggerFormatter';
+import { LogglyApi } from './LogglyApi'
+import { LevelName } from './LogglyLevel'
+import { LogglyLoggerFormatter } from './LogglyLoggerFormatter'
 
 /**
  *  feature
@@ -11,31 +13,37 @@ import { LogglyLoggerFormatter } from './LogglyLoggerFormatter';
  *    - 被 browser 的廣告 plugin 阻止
  */
 export class LogglyClient {
-  formatter;
+  formatter: LogglyLoggerFormatter
+  logglyApi: LogglyApi
 
-  constructor(token, tags) {
-    this.formatter = new LogglyLoggerFormatter(token, tags);
+  constructor(host: string, token: string, tags?: string) {
+    this.formatter = new LogglyLoggerFormatter()
+    this.logglyApi = new LogglyApi(host, token, tags)
+  }
+
+  setChannel(channel: string) {
+    this.logglyApi.token = channel
   }
 
   // ============================================================
   //  send log
   // ============================================================
 
-  debug(message, context = {}) {
-    return this._log('DEBUG', message, context);
-  }
+  debug = this._createLog('DEBUG')
 
-  info(message, context = {}) {
-    return this._log('INFO', message, context);
-  }
+  info = this._createLog('INFO')
 
-  warn(message, context = {}) {
-    return this._log('WARNING', message, context);
-  }
+  warn = this._createLog('WARNING')
 
-  error(message, context = {}) {
-    return this._log('ERROR', message, context);
-  }
+  error = this._createLog('ERROR')
+
+  critical = this._createLog('CRITICAL')
+
+  alert = this._createLog('ALERT')
+
+  emergency = this._createLog('EMERGENCY')
+
+  notice = this._createLog('NOTICE')
 
   // ============================================================
   //  private
@@ -44,15 +52,8 @@ export class LogglyClient {
   // 如果有 cache 到訊息, 利用 console.log() 列出來
   // 因為這裡是邏輯層，在這裡顯示是合理的
 
-  /**
-   *
-   * @param levelName
-   * @param message
-   * @param context
-   * @private
-   * @returns {Promise.<TResult>}
-   */
-  _log(levelName, message, context) {
-    return this.formatter.send(levelName, message, context);
+  private _createLog<T>(levelName: LevelName) {
+    return (message: string, context: T) =>
+      this.logglyApi.send(this.formatter.format(levelName, message, context))
   }
 }
