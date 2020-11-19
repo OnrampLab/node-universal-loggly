@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
+    "jest": "^26.6.3",
     "nock": "^13.0.5",
     "rollup": "^1.28.0",
     "rollup-plugin-buble": "^0.19.8",
@@ -26,7 +27,8 @@
   },
   "scripts": {
     "dev": "rollup -w -c ./tools/rollup/config.dev.js",
-    "prod": "rollup -c ./tools/rollup/config.prod.js"
+    "prod": "rollup -c ./tools/rollup/config.prod.js",
+    "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/OnrampLab/node-universal-loggly/issues"
