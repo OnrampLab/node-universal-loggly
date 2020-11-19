@@ -27,8 +27,5 @@ export class LogglyApi {
           return Promise.reject(response)
         }
       })
-      .then(function (jsonData) {
-        return jsonData
-      })
   }
 }
