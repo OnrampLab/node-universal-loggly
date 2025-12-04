@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'production';
 
 const path = require('path');
-const { uglify } = require('rollup-plugin-uglify');
+const terser = require('@rollup/plugin-terser');
 const configList = require('./config');
 
 const resolveFile = function(filePath) {
@@ -14,7 +14,7 @@ configList.map((config, index) => {
     config.plugins = [
       ...config.plugins,
       ...[
-        uglify()
+        terser()
       ]
     ]
   

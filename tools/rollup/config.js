@@ -1,6 +1,6 @@
 const path = require('path');
-const buble = require('rollup-plugin-buble');
-const typescript = require('rollup-plugin-typescript');
+const buble = require('@rollup/plugin-buble');
+const typescript = require('@rollup/plugin-typescript');
 const pkg = require('../../package.json')
 
 const resolveFile = function(filePath) {
@@ -18,7 +18,10 @@ module.exports = [
       name: 'node_universal_loggly',
     },
     plugins: [
-      typescript(),
+      typescript({
+        module: 'esnext',
+        exclude: ['example/**', 'tests/**'],
+      }),
       buble(),
     ],
   },
