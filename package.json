@@ -37,5 +37,6 @@
   "keywords": [
     "loggly"
   ],
-  "author": "onramplab"
+  "author": "onramplab",
+  "packageManager": "yarn@1.22.22"
 }
