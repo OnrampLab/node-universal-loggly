@@ -1,12 +1,13 @@
-import fetch from 'cross-fetch'
+import crossFetch from 'cross-fetch'
+
+// Bind fetch to globalThis to avoid "Illegal invocation" in browsers
+const fetch = crossFetch.bind(globalThis)
 
 /**
  * @desc 組織底層
  */
 export class LogglyApi {
-  constructor(public host: string, public token: string, public tags?: string) {
-    this.send.bind(this)
-  }
+  constructor(public host: string, public token: string, public tags?: string) {}
 
   get baseUrl() {
     return `${this.host}/inputs/${this.token}/tag/${this.tags}/`
